@@ -1,0 +1,37 @@
+{
+  "product": "Offline Client Hub",
+  "pricing_model": "free_core_optional_micro_support",
+  "mandatory_subscription": false,
+  "support": {
+    "india": [
+      {
+        "currency": "INR",
+        "amount": 10
+      },
+      {
+        "currency": "INR",
+        "amount": 25
+      },
+      {
+        "currency": "INR",
+        "amount": 49
+      }
+    ],
+    "international": [
+      {
+        "currency": "USD",
+        "amount": 0.5
+      },
+      {
+        "currency": "USD",
+        "amount": 1
+      },
+      {
+        "currency": "USD",
+        "amount": 2
+      }
+    ]
+  },
+  "payment_processing": "external_provider",
+  "google_integration": "not included in this offline build"
+}

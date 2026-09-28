@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+<meta name="description" content="Nagesha G's ClientFlow — a private, offline-first client project and reporting workspace.">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<title>ClientFlow — Private Client Workspace</title>
+</head>
+<body>
+<div id="threeBackground" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="#" onclick="showHome();return false;">
+    <div class="logo-orbit"><span>CF</span></div>
+    <div><strong>ClientFlow</strong><small>by Nagesha G • Private client workspace</small></div>
+  </a>
+  <div class="top-actions">
+    <span id="connectionBadge" class="badge offline">Offline mode</span>
+    <button id="themeBtn" class="icon-btn" title="Toggle dark/light mode">☾</button>
+    <button id="profileBtn" class="btn ghost">Profile</button>
+    <button id="installBtn" class="btn ghost hidden">Install</button>
+    <button id="supportBtn" class="btn support">₹ Support</button>
+    <button id="newProjectBtn" class="btn primary">+ New Project</button>
+  </div>
+</header>
+
+<main>
+<section id="homeView" class="view">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">BUILT FOR PEOPLE WHO NEED A SIMPLE WAY TO SHOW REAL PROGRESS</span>
+      <h1>Client updates without the chaos.</h1>
+      <p>ClientFlow helps freelancers, students, agencies and independent builders organize projects, prove work, create reports and keep clients informed — without requiring an account or a cloud server.</p>
+      <div class="hero-actions">
+        <button class="btn primary big" id="heroNewProject">Create a project</button>
+        <button class="btn glass" id="importProjectBtn">Import backup</button>
+      </div>
+      <div class="hero-trust"><span>✓ Local-first</span><span>✓ Free core</span><span>✓ PDF reports</span><span>✓ Mobile ready</span></div>
+    </div>
+    <div class="hero-panel">
+      <div class="floating-card card-a"><span>PROJECT HEALTH</span><strong>Clear</strong><i>●</i></div>
+      <div class="floating-card card-b"><span>CLIENT REPORT</span><strong>Ready ✓</strong><small>Progress • Proof • Next steps</small></div>
+      <div class="hero-ring">CF</div>
+    </div>
+  </div>
+
+  <div class="section-heading"><div><span class="eyebrow">WORKSPACE</span><h2>Your projects</h2><p>Stored locally in this browser.</p></div><span id="projectCount" class="muted"></span></div>
+  <div id="projectList" class="project-grid"></div>
+  <div id="emptyState" class="empty-state"><div class="empty-icon">✦</div><h3>No projects yet</h3><p>Create a project and build your first client-ready update.</p></div>
+
+  <section class="value-strip">
+    <div><b>01</b><strong>Plan</strong><span>Milestones & deliverables</span></div>
+    <div><b>02</b><strong>Prove</strong><span>Updates & screenshots</span></div>
+    <div><b>03</b><strong>Report</strong><span>Professional PDF view</span></div>
+    <div><b>04</b><strong>Share</strong><span>Client-friendly presentation</span></div>
+  </section>
+</section>
+
+<section id="dashboardView" class="view hidden">
+  <div class="dashboard-head">
+    <button class="btn ghost" id="backBtn">← Projects</button>
+    <div class="dashboard-title"><span class="eyebrow">PROJECT CONTROL CENTER</span><h1 id="dashboardProjectName">Project</h1><p id="dashboardClient"></p></div>
+    <div class="dashboard-actions">
+      <button class="btn secondary" id="clientViewBtn">Client Report</button>
+      <button class="btn secondary" id="exportJsonBtn">JSON</button>
+      <button class="btn secondary" id="exportCsvBtn">CSV</button>
+      <button class="btn secondary" id="printReportBtn">PDF</button>
+      <button class="btn danger-outline" id="deleteProjectBtn">Delete</button>
+    </div>
+  </div>
+
+  <div class="health-banner">
+    <div><span class="eyebrow">PROJECT HEALTH</span><h2 id="healthTitle">On track</h2><p id="healthText">Keep your milestones and updates current.</p></div>
+    <div class="health-meter"><strong id="progressValue">0%</strong><div class="progress"><i id="progressBar"></i></div><small id="projectStatus">Not Started</small></div>
+  </div>
+
+  <div class="summary-grid">
+    <article class="metric-card"><span>Client</span><strong id="clientValue">—</strong><small id="companyValue">—</small></article>
+    <article class="metric-card"><span>Deadline</span><strong id="deadlineValue">—</strong><small id="deadlineStatus">—</small></article>
+    <article class="metric-card"><span>Milestones</span><strong id="milestoneCount">0</strong><small id="milestoneSummary">No milestones</small></article>
+    <article class="metric-card"><span>Deliverables</span><strong id="deliverableCount">0</strong><small id="deliverableSummary">No deliverables</small></article>
+    <article class="metric-card"><span>Updates</span><strong id="updateCount">0</strong><small>Weekly reports</small></article>
+    <article class="metric-card"><span>Tasks</span><strong id="taskCount">0</strong><small id="taskSummary">No tasks</small></article>
+    <article class="metric-card"><span>Proof</span><strong id="proofCount">0</strong><small>Evidence items</small></article>
+  </div>
+
+  <div class="workspace-grid">
+    <section class="panel"><div class="panel-head"><div><span class="eyebrow">01</span><h2>Milestones</h2><p>Track the project journey.</p></div><button class="btn primary small" id="addMilestoneBtn">+ Add</button></div><div id="milestonesList" class="stack"></div><div id="milestonesEmpty" class="inline-empty">No milestones yet.</div></section>
+    <section class="panel"><div class="panel-head"><div><span class="eyebrow">02</span><h2>Deliverables</h2><p>What the client receives.</p></div><button class="btn primary small" id="addDeliverableBtn">+ Add</button></div><div id="deliverablesList" class="stack"></div><div id="deliverablesEmpty" class="inline-empty">No deliverables yet.</div></section>
+    <section class="panel wide"><div class="panel-head"><div><span class="eyebrow">03</span><h2>Tasks</h2><p>Break the project into clear actions and mark them complete.</p></div><button class="btn primary small" id="addTaskBtn">+ Add task</button></div><div id="tasksList" class="stack"></div><div id="tasksEmpty" class="inline-empty">No tasks yet. Add your first task.</div></section>
+    <section class="panel wide"><div class="panel-head"><div><span class="eyebrow">04</span><h2>Weekly Updates</h2><p>Turn work into a clear client-facing story.</p></div><button class="btn primary small" id="addUpdateBtn">+ Weekly update</button></div><div id="updatesList" class="stack"></div><div id="updatesEmpty" class="inline-empty">No weekly updates yet.</div></section>
+    <section class="panel"><div class="panel-head"><div><span class="eyebrow">05</span><h2>Blockers</h2><p>Keep risks visible.</p></div><button class="btn primary small" id="addBlockerBtn">+ Add</button></div><div id="blockersList" class="stack"></div><div id="blockersEmpty" class="inline-empty">No blockers recorded.</div></section>
+    <section class="panel"><div class="panel-head"><div><span class="eyebrow">06</span><h2>Next Steps</h2><p>Make the next action obvious.</p></div><button class="btn primary small" id="addNextStepBtn">+ Add</button></div><div id="nextStepsList" class="stack"></div><div id="nextStepsEmpty" class="inline-empty">No next steps recorded.</div></section>
+    <section class="panel wide"><div class="panel-head"><div><span class="eyebrow">07</span><h2>Proof & Evidence</h2><p>Show the work instead of only describing it.</p></div><button class="btn primary small" id="addProofBtn">+ Add proof</button></div><div id="proofList" class="proof-grid"></div><div id="proofEmpty" class="inline-empty">No proof items yet.</div></section>
+  </div>
+
+  <section class="panel privacy-panel"><div><span class="eyebrow">PRIVATE BY DEFAULT</span><h2>Your workspace belongs to you.</h2><p>The offline core stores project data in this browser. Export JSON backups regularly. Cloud integrations can be added later as optional connections.</p></div><button class="btn danger-outline" id="clearLocalDataBtn">Clear all local data</button></section>
+</section>
+
+<section id="clientView" class="view hidden"></section>
+<section id="reportView" class="view hidden"></section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="logo-orbit small-logo"><span>CF</span></div>
+      <div>
+        <strong>ClientFlow</strong>
+        <p>Built by <b>Nagesha G</b> for people who really need a simpler way to manage work, show progress and communicate clearly with clients.</p>
+      </div>
+    </div>
+    <div class="footer-column">
+      <strong>Built for people</strong>
+      <span>Freelancers</span><span>Students</span><span>Indie makers</span><span>Small teams</span>
+    </div>
+    <div class="footer-column">
+      <strong>Principles</strong>
+      <span>Free core</span><span>Offline-first</span><span>Privacy-minded</span><span>No forced account</span>
+    </div>
+  </div>
+
+  <div class="footer-quote">
+    “If this little tool makes your work a little easier, your encouragement helps me keep building bigger and more useful things for people.”
+    <b>— Nagesha G</b>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Nagesha G • ClientFlow</span>
+    <span>Optional support: ₹9 • ₹19 • ₹29</span>
+    <span>No payment required to use the product.</span>
+  </div>
+</footer>
+
+<input id="importFile" type="file" accept=".json,application/json" hidden>
+
+<!-- Project modal -->
+<div id="projectModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><span class="eyebrow">PROJECT</span><h2 id="projectModalTitle">New Project</h2></div><button class="icon-btn" data-close="projectModal">×</button></div>
+<form id="projectForm"><input type="hidden" id="projectId"><div class="form-grid">
+<label>Project name<input id="projectName" required placeholder="Website redesign"></label>
+<label>Client name<input id="clientName" required placeholder="Alex Johnson"></label>
+<label>Company<input id="companyName" placeholder="Acme Studio"></label>
+<label>Start date<input id="startDate" type="date"></label>
+<label>Deadline<input id="deadline" type="date"></label>
+
+</div><label>Description<textarea id="projectDescription" rows="4" placeholder="What are you building and why?"></textarea></label>
+<div class="modal-actions"><button type="button" class="btn ghost" data-close="projectModal">Cancel</button><button class="btn primary">Save project</button></div></form></div></div>
+
+<!-- Milestone -->
+<div id="milestoneModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><span class="eyebrow">MILESTONE</span><h2 id="milestoneModalTitle">Add Milestone</h2></div><button class="icon-btn" data-close="milestoneModal">×</button></div>
+<form id="milestoneForm"><input type="hidden" id="milestoneId"><label>Name<input id="milestoneName" required></label><label>Description<textarea id="milestoneDescription" rows="3"></textarea></label><div class="form-grid"><label>Progress %<input id="milestoneProgress" type="number" min="0" max="100" value="0"></label><label>Due date<input id="milestoneDue" type="date"></label><label>Status<select id="milestoneStatus"><option>Planned</option><option>In Progress</option><option>Completed</option><option>Blocked</option></select></label></div><div class="modal-actions"><button type="button" class="btn ghost" data-close="milestoneModal">Cancel</button><button class="btn primary">Save milestone</button></div></form></div></div>
+
+<!-- Deliverable -->
+<div id="deliverableModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><span class="eyebrow">DELIVERABLE</span><h2>Add Deliverable</h2></div><button class="icon-btn" data-close="deliverableModal">×</button></div>
+<form id="deliverableForm"><input type="hidden" id="deliverableId"><label>Name<input id="deliverableName" required></label><label>Description<textarea id="deliverableDescription" rows="3"></textarea></label><div class="form-grid"><label>Due date<input id="deliverableDue" type="date"></label><label>Status<select id="deliverableStatus"><option>Planned</option><option>In Progress</option><option>Ready for Review</option><option>Delivered</option><option>Blocked</option></select></label><label>Proof / URL<input id="deliverableUrl" type="url"></label></div><div class="modal-actions"><button type="button" class="btn ghost" data-close="deliverableModal">Cancel</button><button class="btn primary">Save deliverable</button></div></form></div></div>
+
+<!-- Task -->
+<div id="taskModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><span class="eyebrow">TASK</span><h2 id="taskModalTitle">Add Task</h2></div><button class="icon-btn" data-close="taskModal">×</button></div>
+<form id="taskForm"><input type="hidden" id="taskId"><label>Task name<input id="taskName" required placeholder="Build login page"></label><label>Description<textarea id="taskDescription" rows="3" placeholder="What needs to be done?"></textarea></label><div class="form-grid"><label>Priority<select id="taskPriority"><option>Low</option><option selected>Medium</option><option>High</option><option>Urgent</option></select></label><label>Status<select id="taskStatus"><option>Todo</option><option>In Progress</option><option>Done</option><option>Blocked</option></select></label><label>Due date<input id="taskDue" type="date"></label><label>Assignee<input id="taskAssignee" placeholder="Me / Client / Team"></label></div><div class="modal-actions"><button type="button" class="btn ghost" data-close="taskModal">Cancel</button><button class="btn primary">Save task</button></div></form></div></div>
+
+<!-- Weekly update -->
+<div id="updateModal" class="modal hidden"><div class="modal-card large"><div class="modal-head"><div><span class="eyebrow">CLIENT REPORT</span><h2>Weekly Update</h2></div><button class="icon-btn" data-close="updateModal">×</button></div>
+<form id="updateForm"><input type="hidden" id="updateId"><div class="form-grid"><label>Week ending<input id="updateDate" type="date" required></label><label>Progress snapshot %<input id="updateProgress" type="number" min="0" max="100" value="0"></label></div><label>Executive summary<textarea id="updateSummary" rows="4" required></textarea></label><div class="form-grid"><label>Completed work<textarea id="updateCompleted" rows="5" placeholder="One item per line"></textarea></label><label>In progress<textarea id="updateInProgress" rows="5"></textarea></label><label>Blockers / decisions<textarea id="updateBlockers" rows="5"></textarea></label><label>Next week plan<textarea id="updateNext" rows="5"></textarea></label></div><div class="modal-actions"><button type="button" class="btn ghost" data-close="updateModal">Cancel</button><button class="btn primary">Save update</button></div></form></div></div>
+
+<!-- Blocker/next -->
+<div id="textModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><span class="eyebrow" id="textModalEyebrow">ITEM</span><h2 id="textModalTitle">Add Item</h2></div><button class="icon-btn" data-close="textModal">×</button></div><form id="textForm"><input type="hidden" id="textType"><input type="hidden" id="textId"><label>Title<input id="textTitle" required></label><label>Details<textarea id="textDetails" rows="4"></textarea></label><div class="modal-actions"><button type="button" class="btn ghost" data-close="textModal">Cancel</button><button class="btn primary">Save</button></div></form></div></div>
+
+<!-- Proof -->
+<div id="proofModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><span class="eyebrow">EVIDENCE</span><h2>Add Proof</h2></div><button class="icon-btn" data-close="proofModal">×</button></div><form id="proofForm"><label>Title<input id="proofTitle" required></label><label>Note<textarea id="proofNote" rows="3"></textarea></label><label>External URL<input id="proofUrl" type="url"></label><label>Screenshot / image<input id="proofFile" type="file" accept="image/*"></label><small class="muted">Images are stored locally in this browser.</small><div class="modal-actions"><button type="button" class="btn ghost" data-close="proofModal">Cancel</button><button class="btn primary">Save proof</button></div></form></div></div>
+
+<!-- Profile -->
+<div id="profileModal" class="modal hidden">
+<div class="modal-card large">
+  <div class="modal-head">
+    <div><span class="eyebrow">YOUR LOCAL PROFILE</span><h2>Profile & Support</h2></div>
+    <button class="icon-btn" data-close="profileModal">×</button>
+  </div>
+  <form id="profileForm">
+    <div class="profile-editor">
+      <div id="profilePreview" class="avatar-xl">N</div>
+      <div><label>Profile photo<input id="profilePhoto" type="file" accept="image/*"></label><small class="muted">Stored only in this browser.</small></div>
+    </div>
+    <div class="form-grid">
+      <label>Your name<input id="profileName" placeholder="Nagesha G"></label>
+      <label>Role / title<input id="profileRole" placeholder="Developer / Freelancer"></label>
+      <label>Email<input id="profileEmail" type="email"></label>
+      <label>Website / portfolio<input id="profileWebsite" type="url"></label>
+      <label>Location<input id="profileLocation" placeholder="India"></label>
+      <label>Short bio<input id="profileBio" placeholder="What do you build?"></label>
+    </div>
+
+    <div class="support-setup">
+      <div>
+        <span class="eyebrow">OPTIONAL SUPPORT SETUP</span>
+        <h3>Your payment QR</h3>
+        <p>Upload your own UPI/payment QR once. It stays in this browser and appears in the optional support popup.</p>
+      </div>
+      <label>Upload QR code<input id="supportQrFile" type="file" accept="image/png,image/jpeg,image/webp"></label>
+      <div class="qr-preview-wrap">
+        <img id="supportQrPreview" class="support-qr small-qr hidden" alt="Support QR preview">
+        <button type="button" id="removeQrBtn" class="btn danger-outline hidden">Remove QR</button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn ghost" data-close="profileModal">Cancel</button>
+      <button class="btn primary">Save profile & support setup</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<!-- Support -->
+<div id="supportModal" class="modal hidden">
+<div class="modal-card support-card">
+  <div class="modal-head">
+    <div><span class="eyebrow">OPTIONAL SUPPORT</span><h2>Support the future of ClientFlow ☕</h2></div>
+    <button class="icon-btn" data-close="supportModal">×</button>
+  </div>
+
+  <div id="supportQrArea" class="qr-area hidden">
+    <div class="qr-title">If ClientFlow helped you</div>
+    <p>Scan the QR code below using your payment app. Any support is optional.</p>
+    <img id="supportQrImage" class="support-qr" alt="Support payment QR code">
+    <small class="muted">Payment is handled by your payment provider. ClientFlow does not store payment credentials.</small>
+  </div>
+
+  <div id="supportNoQr" class="qr-empty">
+    <div class="qr-placeholder">QR</div>
+    <strong>Support QR not configured</strong>
+    <p>Add your QR code from <b>Profile → Support setup</b>.</p>
+  </div>
+
+  <div class="support-message">
+    <strong>Completely optional</strong>
+    <p>Use ClientFlow for free. If it genuinely saves you time or helps your work, you can contribute a small amount toward future development.</p>
+  </div>
+
+  <div class="support-options">
+    <button class="support-amount" data-amount="9">₹9<br><small>Thank you</small></button>
+    <button class="support-amount" data-amount="19">₹19<br><small>Small tea</small></button>
+    <button class="support-amount" data-amount="29">₹29<br><small>Future build</small></button>
+  </div>
+
+  <div class="support-note">
+    <b>Why support?</b>
+    <span>Your contribution can help improve the free product, accessibility, testing, offline features and future integrations.</span>
+  </div>
+
+  <button class="btn secondary" data-close="supportModal">Continue using ClientFlow for free</button>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/database.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
